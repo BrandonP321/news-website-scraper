@@ -1,0 +1,15 @@
+.scraperContainer {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+
+  .copyBtn {
+    align-self: flex-end;
+    margin-top: 1rem;
+  }
+}
+
+.errMsg {
+  // Danger red color
+  color: #ff0000;
+}

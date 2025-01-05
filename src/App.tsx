@@ -1,23 +1,25 @@
-import React, { useEffect } from "react";
-import "./App.module.scss";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
+import styles from "./App.module.scss";
+import { ArticleScraper } from "./ArticleScraper";
+import { Button } from "react-bootstrap";
 
 function App() {
-  useEffect(() => {
-    const url =
-      "https://apnews.com/article/venezuela-edmundo-gonzalez-arrest-warrant-d34272422cddb42c1dde9166539a85d5";
+  const [scrapersCount, setScrapersCount] = useState(1);
 
-    axios
-      .get(url)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  useEffect(() => {}, []);
 
-  return <div className="App">HI</div>;
+  return (
+    <div className={styles.app}>
+      <div className={styles.btnWrapper}>
+        <Button onClick={() => setScrapersCount(scrapersCount + 1)}>
+          Add Article Scraper
+        </Button>
+      </div>
+      {Array.from({ length: scrapersCount }).map((_, index) => (
+        <ArticleScraper key={index} />
+      ))}
+    </div>
+  );
 }
 
 export default App;

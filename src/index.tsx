@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "destyle.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.scss";
 import App from "./App";
 
