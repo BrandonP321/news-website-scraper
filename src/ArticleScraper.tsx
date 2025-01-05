@@ -9,7 +9,7 @@ import {
 } from "react-bootstrap";
 import styles from "./ArticleScraper.module.scss";
 
-const APIEndpoint = "http://localhost:8000";
+const APIEndpoint = process.env.REACT_APP_API_DOMAIN!;
 
 type ScrapedData = {
   content: string;
