@@ -53,6 +53,7 @@ type Props = {};
 
 export function ArticleScraper(props: Props) {
   const [input, setInput] = useState<string>("");
+  const [isFetching, setIsFetching] = useState<boolean>(false);
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
   const [isCopySuccessful, setIsCopySuccessful] = useState<boolean>(false);
   const [errMsg, setErrMsg] = useState<string | null>(null);
@@ -66,6 +67,7 @@ export function ArticleScraper(props: Props) {
   const scrapeArticle = useCallback(async () => {
     setArticle(null);
     setErrMsg(null);
+    setIsFetching(true);
 
     try {
       await getScrapedData(input).then((data) => {
@@ -76,6 +78,8 @@ export function ArticleScraper(props: Props) {
       console.error(error);
       setErrMsg("Failed to scrape article");
     }
+
+    setIsFetching(false);
   }, [input]);
 
   const handleCopy = useCallback(() => {
@@ -101,13 +105,20 @@ export function ArticleScraper(props: Props) {
 
   return (
     <div className={styles.scraperContainer}>
-      <h2>{article?.title ?? "New Article"}</h2>
+      <h2 className={styles.title}>{article?.title ?? "New Article"}</h2>
       <InputGroup>
         <Form.Control
+          className={styles.input}
           placeholder="Article URL"
           onChange={(e) => setInput(e.target.value)}
         />
-        <Button onClick={scrapeArticle}>Scrape Article</Button>
+        <Button
+          onClick={scrapeArticle}
+          disabled={isFetching || !input}
+          className={styles.scrapeBtn}
+        >
+          Scrape Article
+        </Button>
       </InputGroup>
       {errMsg && <Form.Text className={styles.errMsg}>{errMsg}</Form.Text>}
       {article && !errMsg && (
@@ -117,7 +128,11 @@ export function ArticleScraper(props: Props) {
           overlay={renderTooltip}
           show={showTooltip}
         >
-          <Button onClick={handleCopy} className={styles.copyBtn}>
+          <Button
+            onClick={handleCopy}
+            className={styles.copyBtn}
+            disabled={isFetching}
+          >
             Copy Article Data
           </Button>
         </OverlayTrigger>

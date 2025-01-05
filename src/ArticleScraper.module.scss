@@ -2,10 +2,43 @@
   margin-top: 2rem;
   display: flex;
   flex-direction: column;
+  border: 1px solid rgba(75, 75, 78, 0.577);
+  background-color: lighten(rgb(27, 27, 29), 2%);
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.653);
 
   .copyBtn {
     align-self: flex-end;
-    margin-top: 1rem;
+    margin-top: 2rem;
+  }
+}
+
+.scrapeBtn {
+  &:disabled {
+    background-color: rgb(75, 75, 78);
+    border-color: rgba(white, 0.5);
+  }
+}
+
+.title {
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.input {
+  background-color: lighten(rgb(27, 27, 29), 10%);
+  transition: all 0.1s;
+  color: rgb(216, 216, 216);
+
+  &:focus {
+    background-color: lighten(rgb(27, 27, 29), 20%);
+    color: rgb(216, 216, 216);
+  }
+
+  // placeholder color
+  &::placeholder {
+    color: #b3b3b3;
   }
 }
 
