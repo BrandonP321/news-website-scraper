@@ -20,14 +20,27 @@ function App() {
     console.log(urls);
   }, []);
 
-  const updateAllSearchParams = () => {
+  const updateAllSearchParams = (urls?: string[]) => {
     const searchParams = new URLSearchParams();
-    inputValues.forEach((url) => searchParams.append("url", url ?? ""));
+    (urls ?? inputValues).forEach((url) =>
+      searchParams.append("url", url ?? "")
+    );
     window.history.replaceState(
       {},
       "",
       `${window.location.pathname}?${searchParams}`
     );
+  };
+
+  const deleteScraper = (index: number) => {
+    setInputValues((prev) => {
+      const newValues = [...prev];
+      newValues.splice(index, 1);
+      updateAllSearchParams(newValues);
+
+      return newValues;
+    });
+    setScrapersCount(scrapersCount - 1);
   };
 
   useEffect(() => {
@@ -59,6 +72,7 @@ function App() {
       {Array.from({ length: scrapersCount }).map((_, index) => (
         <ArticleScraper
           key={index}
+          deleteScraper={() => deleteScraper(index)}
           updateValue={(v) => setInput(index, v)}
           input={inputValues[index]}
         />

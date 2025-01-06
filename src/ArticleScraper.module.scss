@@ -8,9 +8,23 @@
   border-radius: 1rem;
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.653);
 
-  .copyBtn {
-    align-self: flex-end;
+  .actionBtns {
+    display: flex;
+    justify-content: flex-end;
     margin-top: 2rem;
+  }
+
+  .deleteBtn {
+    background-color: rgba(255, 0, 0, 0.291);
+    border-color: rgba(255, 0, 0, 0.342);
+
+    &:hover {
+      background-color: rgba(255, 0, 0, 0.5);
+    }
+  }
+
+  .copyBtn {
+    margin-right: 1rem;
   }
 }
 

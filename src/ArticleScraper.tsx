@@ -52,9 +52,10 @@ async function getScrapedData(url: string): Promise<ScrapedData> {
 type Props = {
   input: string;
   updateValue: (value: string) => void;
+  deleteScraper: () => void;
 };
 
-export function ArticleScraper({ input, updateValue }: Props) {
+export function ArticleScraper({ input, updateValue, deleteScraper }: Props) {
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const hasInputBeenChanged = useRef(false);
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
@@ -130,22 +131,27 @@ export function ArticleScraper({ input, updateValue }: Props) {
         </Button>
       </InputGroup>
       {errMsg && <Form.Text className={styles.errMsg}>{errMsg}</Form.Text>}
-      {article && !errMsg && (
-        <OverlayTrigger
-          placement="top"
-          delay={{ show: 250, hide: 400 }}
-          overlay={renderTooltip}
-          show={showTooltip}
-        >
-          <Button
-            onClick={handleCopy}
-            className={styles.copyBtn}
-            disabled={isFetching}
+      <div className={styles.actionBtns}>
+        {article && !errMsg && (
+          <OverlayTrigger
+            placement="top"
+            delay={{ show: 250, hide: 400 }}
+            overlay={renderTooltip}
+            show={showTooltip}
           >
-            Copy Article Data
-          </Button>
-        </OverlayTrigger>
-      )}
+            <Button
+              onClick={handleCopy}
+              className={styles.copyBtn}
+              disabled={isFetching}
+            >
+              Copy Article Data
+            </Button>
+          </OverlayTrigger>
+        )}
+        <Button onClick={deleteScraper} className={styles.deleteBtn}>
+          Delete
+        </Button>
+      </div>
     </div>
   );
 }
