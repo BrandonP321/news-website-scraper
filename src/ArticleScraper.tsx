@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Button,
   Form,
@@ -56,6 +56,7 @@ type Props = {
 
 export function ArticleScraper({ input, updateValue }: Props) {
   const [isFetching, setIsFetching] = useState<boolean>(false);
+  const hasInputBeenChanged = useRef(false);
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
   const [isCopySuccessful, setIsCopySuccessful] = useState<boolean>(false);
   const [errMsg, setErrMsg] = useState<string | null>(null);
@@ -77,6 +78,13 @@ export function ArticleScraper({ input, updateValue }: Props) {
     }
 
     setIsFetching(false);
+  }, [input]);
+
+  // Scrape article on initial load if input is provided and has not been changed
+  useEffect(() => {
+    if (input && !hasInputBeenChanged.current) {
+      scrapeArticle();
+    }
   }, [input]);
 
   const handleCopy = useCallback(() => {
@@ -108,7 +116,10 @@ export function ArticleScraper({ input, updateValue }: Props) {
           className={styles.input}
           placeholder="Article URL"
           value={input}
-          onChange={(e) => updateValue(e.target.value)}
+          onChange={(e) => {
+            hasInputBeenChanged.current = true;
+            updateValue(e.target.value);
+          }}
         />
         <Button
           onClick={scrapeArticle}
