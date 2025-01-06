@@ -49,20 +49,17 @@ async function getScrapedData(url: string): Promise<ScrapedData> {
   return response.data as ScrapedData;
 }
 
-type Props = {};
+type Props = {
+  input: string;
+  updateValue: (value: string) => void;
+};
 
-export function ArticleScraper(props: Props) {
-  const [input, setInput] = useState<string>("");
+export function ArticleScraper({ input, updateValue }: Props) {
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
   const [isCopySuccessful, setIsCopySuccessful] = useState<boolean>(false);
   const [errMsg, setErrMsg] = useState<string | null>(null);
   const [article, setArticle] = useState<ScrapedData | null>(null);
-
-  useEffect(() => {
-    const url =
-      "https://apnews.com/article/venezuela-edmundo-gonzalez-arrest-warrant-d34272422cddb42c1dde9166539a85d5";
-  }, [input]);
 
   const scrapeArticle = useCallback(async () => {
     setArticle(null);
@@ -110,7 +107,8 @@ export function ArticleScraper(props: Props) {
         <Form.Control
           className={styles.input}
           placeholder="Article URL"
-          onChange={(e) => setInput(e.target.value)}
+          value={input}
+          onChange={(e) => updateValue(e.target.value)}
         />
         <Button
           onClick={scrapeArticle}

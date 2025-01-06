@@ -6,10 +6,45 @@ import { Button } from "react-bootstrap";
 const customGPTUrl =
   "https://chatgpt.com/g/g-677a34722478819182415ab276a656f0-intelligence-briefing-assistant";
 
+let hasRunOnce = false;
+
 function App() {
+  const [inputValues, setInputValues] = useState<string[]>([]);
   const [scrapersCount, setScrapersCount] = useState(1);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const urls = searchParams.getAll("url");
+    setScrapersCount(urls.length || 1);
+    setInputValues(urls);
+    console.log(urls);
+  }, []);
+
+  const updateAllSearchParams = () => {
+    const searchParams = new URLSearchParams();
+    inputValues.forEach((url) => searchParams.append("url", url ?? ""));
+    window.history.replaceState(
+      {},
+      "",
+      `${window.location.pathname}?${searchParams}`
+    );
+  };
+
+  useEffect(() => {
+    if (hasRunOnce) {
+      updateAllSearchParams();
+    } else {
+      hasRunOnce = true;
+    }
+  }, [inputValues]);
+
+  const setInput = (index: number, value: string) => {
+    setInputValues((prev) => {
+      const newValues = [...prev];
+      newValues[index] = value;
+      return newValues;
+    });
+  };
 
   return (
     <div className={styles.app}>
@@ -22,7 +57,11 @@ function App() {
         </Button>
       </div>
       {Array.from({ length: scrapersCount }).map((_, index) => (
-        <ArticleScraper key={index} />
+        <ArticleScraper
+          key={index}
+          updateValue={(v) => setInput(index, v)}
+          input={inputValues[index]}
+        />
       ))}
     </div>
   );
