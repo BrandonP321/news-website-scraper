@@ -61,7 +61,7 @@ function App() {
 
   return (
     <div className={styles.app}>
-      <div className={styles.btnWrapper}>
+      <div className={styles.nav}>
         <Button href={customGPTUrl} target="_blank" className={styles.leftBtn}>
           Go to ChatGPT
         </Button>
@@ -69,14 +69,16 @@ function App() {
           Add Article Scraper
         </Button>
       </div>
-      {Array.from({ length: scrapersCount }).map((_, index) => (
-        <ArticleScraper
-          key={index}
-          deleteScraper={() => deleteScraper(index)}
-          updateValue={(v) => setInput(index, v)}
-          input={inputValues[index]}
-        />
-      ))}
+      <div className={styles.content}>
+        {Array.from({ length: scrapersCount }).map((_, index) => (
+          <ArticleScraper
+            key={index}
+            deleteScraper={() => deleteScraper(index)}
+            updateValue={(v) => setInput(index, v)}
+            input={inputValues[index]}
+          />
+        ))}
+      </div>
     </div>
   );
 }

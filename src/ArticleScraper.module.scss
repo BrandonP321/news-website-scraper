@@ -1,5 +1,4 @@
 .scraperContainer {
-  margin-top: 2rem;
   display: flex;
   flex-direction: column;
   border: 1px solid rgba(75, 75, 78, 0.577);
@@ -7,6 +6,10 @@
   padding: 1rem;
   border-radius: 1rem;
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.653);
+
+  &:not(:first-child) {
+    margin-top: 2rem;
+  }
 
   .actionBtns {
     display: flex;

@@ -1,5 +1,19 @@
 .app {
+}
+
+.content {
   padding: 2rem 1rem;
+}
+
+.nav {
+  display: flex;
+  justify-content: flex-end;
+  padding: 2rem 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: rgb(27, 27, 29);
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.653);
 }
 
 .btnWrapper {
